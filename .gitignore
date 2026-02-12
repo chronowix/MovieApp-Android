@@ -1,0 +1,53 @@
+# =========================
+# Android / IntelliJ / AS
+# =========================
+*.iml
+.idea/
+.gradle/
+local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# =========================
+# Gradle
+# =========================
+.gradle/
+build/
+
+# =========================
+# Kotlin
+# =========================
+*.class
+*.log
+
+# =========================
+# Generated files
+# =========================
+app/build/
+*/build/
+
+# =========================
+# Signing files
+# =========================
+*.jks
+*.keystore
+
+# =========================
+# Secrets / API Keys
+# =========================
+apikey.properties
+secrets.properties
+
+# =========================
+# Navigation SafeArgs (si utilisé plus tard)
+# =========================
+**/navigation.json
+
+# =========================
+# Mac / Windows
+# =========================
+Thumbs.db
+
