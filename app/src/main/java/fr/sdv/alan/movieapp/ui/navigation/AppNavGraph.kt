@@ -13,14 +13,19 @@ import fr.sdv.alan.movieapp.ui.screen.search.SearchScreen
 
 @Composable
 fun AppNavGraph(){
-    // TODO: ajouter Nav Compose
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
         startDestination = NavRoutes.HOME
     ){
-        composable(NavRoutes.HOME){ HomeScreen() }
+        composable(NavRoutes.HOME) {
+            HomeScreen(
+                onMovieClick = { movieId ->
+                    navController.navigate(NavRoutes.detail(movieId))
+                }
+            )
+        }
         composable(NavRoutes.SEARCH){ SearchScreen() }
         composable(NavRoutes.FAVORITES){ FavoritesScreen() }
 
