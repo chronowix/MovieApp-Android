@@ -49,7 +49,11 @@ fun AppNavGraph(
                 )
             }
 
-            composable(NavRoutes.SEARCH) { SearchScreen() }
+            composable(NavRoutes.SEARCH) { SearchScreen(
+                onMovieClick = { movieId ->
+                    navController.navigate(NavRoutes.detail(movieId))
+                }
+            ) }
             composable(NavRoutes.FAVORITES) { FavoritesScreen() }
 
             composable(

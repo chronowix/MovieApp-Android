@@ -17,4 +17,9 @@ class MovieRepository(
         val response = api.searchMovies(apiKey = apiKey, query = query)
         return response.results.orEmpty().map { it.toMovie() }
     }
+
+    suspend fun getMovieDetails(movieId: Int): Movie{
+        val dto = api.getMovieDetails(movieId = movieId, apiKey = apiKey)
+        return dto.toMovie()
+    }
 }
