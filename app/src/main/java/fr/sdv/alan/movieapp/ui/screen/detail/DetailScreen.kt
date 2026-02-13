@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,19 +27,21 @@ import fr.sdv.alan.movieapp.viewmodel.MoviesViewModel
 fun DetailScreen(
     movieId: Int,
     viewModel: MoviesViewModel = viewModel()
-){
-    LaunchedEffect(movieId) {
-        viewModel.loadMovieDetails(movieId)
+) {
+    LaunchedEffect(movieId) { //LaunchedEffect pour charger les détails du film
+        viewModel.loadMovieDetail(movieId) // ✅
     }
 
-    val state by viewModel.detailsState.collectAsState()
+    // collectAsState transforme StateFlow en State Compose pour une recomposition automatique
+    val state by viewModel.detailState.collectAsState()
+    val isFav by viewModel.isFavorite.collectAsState()
 
-    when(val s = state){
+    when (val s = state) {
         is UiState.Loading -> {
             CircularProgressIndicator(modifier = Modifier.padding(16.dp))
         }
 
-        is UiState.Error ->{
+        is UiState.Error -> {
             Text(
                 text = "Erreur: ${s.message}",
                 modifier = Modifier.padding(16.dp),
@@ -83,6 +86,12 @@ fun DetailScreen(
                     text = movie.overview.ifBlank { "Pas de description." },
                     style = MaterialTheme.typography.bodyMedium
                 )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Button(onClick = { viewModel.toggleFavorite(movieId) }) {
+                    Text(if (isFav) "★ Retirer des favoris" else "☆ Ajouter aux favoris")
+                }
             }
         }
     }

@@ -37,6 +37,7 @@ fun HomeScreen(
 ) {
     val state by viewModel.trendingState.collectAsState()
 
+    //pattern when pour gérer l'état de chargement (loading/error/success)
     when (val s = state) {
         is UiState.Loading -> {
             CircularProgressIndicator(modifier = Modifier.padding(16.dp))

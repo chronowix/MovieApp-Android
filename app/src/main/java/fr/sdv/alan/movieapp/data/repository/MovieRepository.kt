@@ -8,17 +8,18 @@ class MovieRepository(
     private val api: TMDBApi,
     private val apiKey: String
 ) {
-    suspend fun getTrendingMovies(): List<Movie>{
+
+    suspend fun getTrendingMovies(): List<Movie> {
         val response = api.getTrendingMovies(apiKey = apiKey)
         return response.results.orEmpty().map { it.toMovie() }
     }
 
-    suspend fun searchMovies(query: String): List<Movie>{
+    suspend fun searchMovies(query: String): List<Movie> {
         val response = api.searchMovies(apiKey = apiKey, query = query)
         return response.results.orEmpty().map { it.toMovie() }
     }
 
-    suspend fun getMovieDetails(movieId: Int): Movie{
+    suspend fun getMovieDetails(movieId: Int): Movie {
         val dto = api.getMovieDetails(movieId = movieId, apiKey = apiKey)
         return dto.toMovie()
     }
