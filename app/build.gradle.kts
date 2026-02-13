@@ -3,15 +3,22 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    //id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "fr.sdv.alan.movieapp"
+
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(36) { minorApiLevel = 1 }
     }
+
+    val apikeyPropertiesFile = rootProject.file("apikey.properties")
+    val apikeyProperties = Properties()
+    if (apikeyPropertiesFile.exists()) {
+        apikeyProperties.load(apikeyPropertiesFile.inputStream())
+    }
+    val tmdbApiKey = apikeyProperties.getProperty("TMDB_API_KEY") ?: ""
 
     defaultConfig {
         applicationId = "fr.sdv.alan.movieapp"
@@ -19,8 +26,9 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
     }
 
     buildTypes {
@@ -32,30 +40,26 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
     }
-    val apikeyPropertiesFile = rootProject.file("apikey.properties")
-    val apikeyProperties = Properties()
-
-    if (apikeyPropertiesFile.exists()) {
-        apikeyProperties.load(apikeyPropertiesFile.inputStream())
-    }
-
-    val tmdbApiKey = apikeyProperties.getProperty("TMDB_API_KEY") ?: ""
-
-    defaultConfig {
-        // ...
-        buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
-    }
 }
 
+
 dependencies {
+    //implementation("androidx.room:room-runtime:2.6.1")
+    //implementation("androidx.room:room-ktx:2.6.1")
+    //ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
@@ -71,6 +75,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.foundation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

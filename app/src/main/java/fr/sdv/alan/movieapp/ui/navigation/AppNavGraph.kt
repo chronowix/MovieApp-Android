@@ -15,6 +15,7 @@ import fr.sdv.alan.movieapp.ui.screen.favorites.FavoritesScreen
 import fr.sdv.alan.movieapp.ui.screen.home.HomeScreen
 import fr.sdv.alan.movieapp.ui.screen.search.SearchScreen
 
+//navigation entre les différents onglets
 @Composable
 fun AppNavGraph(
     modifier: Modifier = Modifier
@@ -54,7 +55,11 @@ fun AppNavGraph(
                     navController.navigate(NavRoutes.detail(movieId))
                 }
             ) }
-            composable(NavRoutes.FAVORITES) { FavoritesScreen() }
+            composable(NavRoutes.FAVORITES) { FavoritesScreen(
+                onMovieClick = { movieId ->
+                    navController.navigate(NavRoutes.detail(movieId))
+                }
+            ) }
 
             composable(
                 route = NavRoutes.DETAILS,
